@@ -11,4 +11,8 @@ class Product extends Model
     protected $fillable = [
         'product_name','section_id','description'
     ];
+    public function section()
+    {
+         return $this->belongsTo(Section::class);
+    }
 }
