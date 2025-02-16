@@ -14,7 +14,8 @@ class ProductController extends Controller
     public function index()
     {
         $sections = Section::all();
-        return view('products.products',compact('sections'));
+        $products = Product::all();
+        return view('products.products',compact('sections','products'));
     }
 
     /**
@@ -58,9 +59,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request)
     {
-        //
+       return $request;
     }
 
     /**
