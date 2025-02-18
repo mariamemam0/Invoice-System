@@ -33,6 +33,22 @@
 			</button>
 		</div>
 	@endif
+	@if (session()->has('edit'))
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>{{ session()->get('edit') }}</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	@endif
+	@if (session()->has('delete'))
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>{{ session()->get('delete') }}</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	@endif
 
 	<!-- row -->
 	<div class="row">
@@ -155,7 +171,7 @@
 
                                 <input type="hidden" class="form-control" name="pro_id" id="pro_id" value="">
 
-                                <input type="text" class="form-control" name="Product_name" id="Product_name">
+                                <input type="text" class="form-control" name="product_name" id="product_name">
                             </div>
 
                             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">القسم</label>
@@ -175,6 +191,34 @@
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">تعديل البيانات</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+		
+        <!-- delete -->
+        <div class="modal fade" id="modaldemo9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">حذف المنتج</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="products/destroy" method="post">
+                        {{ method_field('delete') }}
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <p>هل انت متاكد من عملية الحذف ؟</p><br>
+                            <input type="hidden" name="pro_id" id="pro_id" value="">
+                            <input class="form-control" name="product_name" id="product_name" type="text" readonly>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                            <button type="submit" class="btn btn-danger">تاكيد</button>
                         </div>
                     </form>
                 </div>
@@ -210,12 +254,12 @@
 	<script>
         $('#edit_Product').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
-            var Product_name = button.data('name')
+            var product_name = button.data('name')
             var section_name = button.data('section_name')
             var pro_id = button.data('pro_id')
             var description = button.data('description')
             var modal = $(this)
-            modal.find('.modal-body #Product_name').val(Product_name);
+            modal.find('.modal-body #product_name').val(product_name);
             modal.find('.modal-body #section_name').val(section_name);
             modal.find('.modal-body #description').val(description);
             modal.find('.modal-body #pro_id').val(pro_id);
