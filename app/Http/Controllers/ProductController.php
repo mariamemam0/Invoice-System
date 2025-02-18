@@ -61,14 +61,26 @@ class ProductController extends Controller
      */
     public function update(Request $request)
     {
-       return $request;
+        $id = Section::where('section_name',$request->section_name)->first()->id;
+        $products = Product::findOrFail($request->pro_id);
+          $products->update([
+               'product_name'=>$request->product_name,
+               'section_id'=>$id,
+               'description'=>$request->description,
+          ]);
+          session()->flash('edit','تم تعديل المنتج بنجاح');
+          return back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request)
     {
-        //
+       $product = Product::findOrFail($request->pro_id);
+       $product->delete();
+       session()->flash('delete','تم حذف المنتج بنجاح');
+       return back();
     }
+    
 }
