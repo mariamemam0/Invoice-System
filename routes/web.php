@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvoiceDetailController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SectionsController;
@@ -29,6 +30,8 @@ Route::resource('invoices',InvoicesController::class);
 Route::resource('sections',SectionsController::class);
 Route::resource('products',ProductController::class);
 Route::get('/section/{id}',[InvoicesController::class,'getProducts']);
+
+Route::get('/InvoicesDetails/{id}',[InvoiceDetailController::class,'edit']);
 
 Route::get('/{page}', [AdminController::class,'index']);
 
