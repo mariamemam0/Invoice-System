@@ -40,8 +40,8 @@
                             style="color:white"><i class="fas fa-file-download"></i>&nbsp;تصدير اكسيل</a>
 							</div>
 							<div class="card-body">
-								<div class="table-responsive">
-									<table class="table text-md-nowrap" id="example2">
+                    <div class="table-responsive">
+                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
 										<thead>
 											<tr>
 												<th class="wd-15p border-bottom-0"> #</th>
@@ -50,7 +50,6 @@
 												<th class="wd-15p border-bottom-0"> تاريخ الإستحقاق</th>
 												<th class="wd-10p border-bottom-0">المنتج</th>
 												<th class="wd-25p border-bottom-0">القسم</th>
-												<th class="wd-25p border-bottom-0">تاريخ الإستحقاق</th>
 												<th class="wd-25p border-bottom-0">الخصم</th>
 												<th class="wd-25p border-bottom-0">نسبة الضريبة</th>
 												<th class="wd-25p border-bottom-0">قيمة الضريبة</th>
@@ -65,21 +64,41 @@
 											</tr>
 										</thead>
 										<tbody>
+											@php
+											$i = 0;
+											@endphp
+											
+											@foreach ($invoices as $invoice )
+											@php
+											$i++;
+											@endphp
 											<tr>
-												<td>1</td>
-												<td>41212</td>
-												<td>System Developer</td>
-												<td>2018/03/12</td>
-												<td>$654,765</td>
-												<td>b.Chloe@datatables.net</td>
-												<td>Bella</td>
-												<td>Chloe</td>
-												<td>System Developer</td>
-												<td>2018/03/12</td>
-												<td>$654,765</td>
-												<td>b.Chloe@datatables.net</td>
-												<td>b.Chloe@datatables.net</td>
+												<td>{{ $i }}</td>
+												<td>{{ $invoice->invoice_number}}</td>
+												<td>{{ $invoice->invoice_Date}}</td>
+												<td>{{ $invoice->Due_date }}</td>
+												<td>{{ $invoice->product }}</td>
+												<td>
+												<a
+                                                href="{{ url('InvoicesDetails') }}/{{ $invoice->id }}">{{ $invoice->section->section_name }}</a>
+												</td>
+												<td>{{ $invoice->Discount }}</td>
+                                                <td>{{ $invoice->Rate_VAT }}</td>
+                                                <td>{{ $invoice->Value_VAT }}</td>
+                                                <td>{{ $invoice->Total }}</td>
+												<td>
+													@if ($invoice->Value_Status == 1)
+													<span class="text-success">{{ $invoice->Status }}</span>
+													@elseif($invoice->Value_Status == 2)
+													<span class="text-danger">{{ $invoice->Status }}</span>
+													@else
+													<span class="text-warning">{{ $invoice->Status }}</span>
+													@endif
+												</td>
+												<td>{{ $invoice->note}}</td>
+
 											</tr>
+											@endforeach
 										
 											
 										</tbody>
