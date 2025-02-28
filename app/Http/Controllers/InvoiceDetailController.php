@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceAttachment;
 use App\Models\InvoiceDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceDetailController extends Controller
 {
@@ -63,8 +64,26 @@ class InvoiceDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(InvoiceDetail $invoiceDetail)
+    public function destroy(Request $request)
     {
-        //
+        $invoices = InvoiceAttachment::findOrFail($request->id_file);
+        $invoices->delete();
+        Storage::disk('public_uploads')->delete($request->invoice_number . '/' . $request->file_name);
+        session()->flash('delete','تم حذف المرفق بنجاح');
+        return back();
     }
+    public function get_file($invoice_number,$file_name)
+    {
+        $contents = Storage::disk('public_uploads')->get($invoice_number . '/' . $file_name);
+        return response()->streamDownload(function () use ($contents) {
+            echo $contents;
+        }, $file_name);
+    }
+    public function open_file($invoice_number,$file_name)
+
+    {
+        $filePath = Storage::disk('public_uploads')->path($invoice_number . '/' . $file_name);
+        return response()->file($filePath);
+    }
+    
 }
