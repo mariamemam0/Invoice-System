@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\InvoiceAttachment;
 use App\Models\Invoicedetail;
-use App\Models\invoices;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -99,17 +98,35 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(invoices $invoices)
+    public function edit($id)
     {
-        //
+        $invoices = Invoice::where('id',$id)->first();
+        $sections = Section::all();
+        return view('invoices.edit_invoice',compact('sections','invoices'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, invoices $invoices)
+    public function update(Request $request)
     {
-        //
+        $invoices = Invoice::findOrFail($request->invoice_id);
+         $invoices->update([
+            'invoice_number' => $request->invoice_number,
+            'invoice_Date' => $request->invoice_Date,
+            'Due_date' => $request->Due_date,
+            'product' => $request->product,
+            'section_id' => $request->Section,
+            'Amount_collection' => $request->Amount_collection,
+            'Amount_Commission' => $request->Amount_Commission,
+            'Discount' => $request->Discount,
+            'Value_VAT' => $request->Value_VAT,
+            'Rate_VAT' => $request->Rate_VAT,
+            'Total' => $request->Total,
+            'note' => $request->note,
+        ]);
+        session()->flash('Edit', 'تم تعديل الفاتورة بنجاح');
+        return back();
     }
 
     /**
