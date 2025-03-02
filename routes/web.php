@@ -37,6 +37,7 @@ Route::get('View_file/{invoice_number}/{file_name}',[InvoiceDetailController::cl
 Route::get('download/{invoice_number}/{file_name}',[InvoiceDetailController::class,'get_file']);
 Route::post('delete_file',[InvoiceDetailController::class,'destroy'])->name('delete_file');
 Route::resource('InvoiceAttachments',InvoiceAttachmentController::class);
+Route::get('/edit_invoice/{id}',[InvoicesController::class,'edit']);
 
 
 Route::get('/{page}', [AdminController::class,'index']);
